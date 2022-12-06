@@ -1,94 +1,53 @@
 import random
+import hangman_art
+import hangman_words
 # 6 stages
-stages = ['''
-  +---+
-  |   |
-  O   |
- /|\  |
- / \  |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
- /    |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|\  |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
- /|   |
-      |
-      |
-=========''', '''
-  +---+
-  |   |
-  O   |
-  |   |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-  O   |
-      |
-      |
-      |
-=========
-''', '''
-  +---+
-  |   |
-      |
-      |
-      |
-      |
-=========
-''']
 
-lives = 6
-word_list = ["baboon","camel","ardvark","siddharth"]
+
+
 # choose random word from the pre-defined list above
-chosen_word = random.choice(word_list)
-#testing code
+chosen_word = random.choice(hangman_words.word_list)
+#set the length of display
+len_of_display = len(chosen_word)
 print(f"{chosen_word}")
+print(f"{hangman_art.logo}")
 
 #generating display
 display = []
-len_of_display = len(chosen_word)
+# setting wrong guess list
+wrong_choices = []
 
-for a in range(1,len_of_display+1):
+for _ in range(1,len_of_display+1):
     display.append("_")
-
-print(display)
-
+#settings of game
 end_of_game = False
 life_lost = False
+lives = 6
+
+#game logic
 while not end_of_game:
     guess = input("Guess a letter: ").lower()
-# use the loop to check if guessed (guess) letter matched the randomnly chosed word
-    for position in range(len_of_display):
-        letter = chosen_word[position]
-        if letter == guess:
-          display[position] = letter
+    # check if user has already guesses this word
+    if guess in display:
+        print(f"You have already guesses this ({guess}) word. Please Try Again")
+    else:
+        for position in range(len_of_display):
+            letter = chosen_word[position]
+            if letter == guess:
+                display[position] = letter
         
     
     if guess not in chosen_word:
-      print(stages[lives])
-      lives -= 1
-      
-    print(display)
+        if guess not in wrong_choices:
+            print(hangman_art.stages[lives])
+            lives -= 1
+            wrong_choices += guess
+        else:
+            print(f"You already lost life for guess this letter ({guess.capitalize()})...So try again!!")
+    
+    
+    display_upper = [let.upper() for let in display]  
+    print(display_upper)
     if "_" not in display and lives > 0:
         end_of_game = True
         print("You Won!")
