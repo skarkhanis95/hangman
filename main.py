@@ -18,7 +18,7 @@ def clear():
 chosen_word = random.choice(hangman_words.word_list)
 #set the length of display
 len_of_display = len(chosen_word)
-print(f"{chosen_word}")
+#print(f"{chosen_word}")
 print(f"{hangman_art.logo}")
 
 #generating display
