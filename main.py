@@ -1,9 +1,18 @@
 import random
 import hangman_art
 import hangman_words
+from os import system, name
 # 6 stages
 
-
+def clear():
+ 
+    # for windows
+    if name == 'nt':
+        _ = system('cls')
+ 
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        _ = system('clear')
 
 # choose random word from the pre-defined list above
 chosen_word = random.choice(hangman_words.word_list)
@@ -27,6 +36,7 @@ lives = 6
 #game logic
 while not end_of_game:
     guess = input("Guess a letter: ").lower()
+    clear()
     # check if user has already guesses this word
     if guess in display:
         print(f"You have already guesses this ({guess}) word. Please Try Again")
